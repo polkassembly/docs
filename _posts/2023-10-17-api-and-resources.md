@@ -98,5 +98,3 @@ Grateful for all the help!
 - [Democracy Pallet](https://github.com/paritytech/substrate/tree/master/frame/democracy/src)
 
 - [Governance Demo](https://www.youtube.com/watch?v=VsZuDJMmVPY&t=24734s) - Dr. Gavin Wood presents the initial governance structure for Polkadot. (Video)
-
-- [Governance on Polkadot](https://www.crowdcast.io/c/governance-on-polkadot--_1) - A webinar explaining how governance works in Polkadot and Kusama.
