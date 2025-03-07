@@ -10,13 +10,17 @@ version: 1.0
 gitbook_version: 3.2.3
 
 url: "https://docs.polkassembly.io"
-baseurl: "/"
+baseurl: ""
 rss: RSS
 twitter_username: polk_gov
 github_username: polkassembly
 
 # bootstrap: use the remote theme for the site itself
 remote_theme: sighingnow/jekyll-gitbook
+
+# Fix for assets path
+theme_variables:
+  theme_repository: "sighingnow/jekyll-gitbook"
 
 toc:
   enabled: true
@@ -74,3 +78,10 @@ plugins:
   - jekyll-feed
   - jekyll-readme-index
   - jemoji
+
+# Add these settings to fix asset paths
+extra_css:
+  - assets/custom.css
+
+# Force absolute URLs for resources to avoid path issues
+absolute_links: true
