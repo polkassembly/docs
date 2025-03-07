@@ -4,90 +4,342 @@ category: Jekyll
 layout: post
 ---
 
-# 🤖 AI Chatbot
+# Polkassembly API Documentation
 
-You can talk to polkassembly using Chat GPT bot
+This document provides information about the Polkassembly API endpoints that are available for third-party developers. All requests should include the appropriate headers for authentication and network specification.
 
-[LINK](https://docsbot.ai/chat/X6zGLB8jx6moWVb6L5S9/D7XT9ksDuTZCvdf99KSW)
+## Base URL
 
-# 🤝 Integrating with Polkassembly
+The base URL for the Polkassembly API depends on the network you are targeting:
 
-Kickstart your parachain's governance journey today!
+- Polkadot: `https://polkadot.polkassembly.io/`
+- Kusama: `https://kusama.polkassembly.io/`
+- Moonbeam: `https://moonbeam.polkassembly.io/`
+- Moonriver: `https://moonriver.polkassembly.io/`
 
-**Requirements**
+## Required Headers
 
-- RPC Endpoint
+All API requests require the following headers:
 
-- URL for archive node
+- `x-network`: The network you are targeting (e.g., "polkadot", "kusama", "moonbeam", "moonriver")
+- `Content-Type`: `application/json`
 
-- Token
+For authenticated requests, you may also need:
+- `Authorization`: `Bearer <jwt_token>`
 
-- Symbol
+## API Endpoints
 
-- Token Decimals
+### Posts
 
-- Website
+#### Get On-Chain Post
 
-- Social Links
+Retrieves information about an on-chain proposal.
 
-- Contact info -> Telegram ID would be perfect!
+**URL**: `/v1/posts/on-chain-post`
 
-Please shoot a mail at hello@polkassembly.io with the following details and we will take it from there. Cheers!
+**Method**: `GET`
 
-# ⚙️ API Documentation
+**Query Parameters**:
+- `postId` (required): The ID of the post
+- `proposalType` (required): The type of proposal (e.g., "referendums_v2", "treasury_proposals", "bounties")
 
-The power of open source
+**Example Request**:
+```javascript
+const response = await fetch(
+  "https://polkadot.polkassembly.io/api/v1/posts/on-chain-post?postId=123&proposalType=referendums_v2",
+  {
+    headers: {
+      "x-network": "polkadot"
+    }
+  }
+);
+```
+
+
+### Comments
+
+#### Get Comments by Timeline
+
+Retrieves comments for a post organized by timeline/history.
+
+**URL**: `/v1/posts/comments/getCommentsByTimeline`
+
+**Method**: `POST`
+
+**Request Body**:
+```json
+{
+  "postId": 123,
+  "proposalType": "referendums_v2"
+}
+```
+
+**Example Request**:
+```javascript
+const response = await fetch(
+  "https://polkadot.polkassembly.io/api/v1/posts/comments/getCommentsByTimeline",
+  {
+    method: "POST",
+    headers: {
+      "x-network": "polkadot",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      postId: 123,
+      proposalType: "referendums_v2"
+    })
+  }
+);
+```
+
+### Votes
+
+#### Get Total Votes
+
+Retrieves the total votes for a specific proposal.
+
+**URL**: `/v1/votes/total`
+
+**Method**: `POST`
+
+**Request Body**:
+```json
+{
+  "postId": 123,
+  "voteType": "referendum"
+}
+```
+
+**Example Request**:
+```javascript
+const response = await fetch(
+  "https://polkadot.polkassembly.io/api/v1/votes/total",
+  {
+    method: "POST",
+    headers: {
+      "x-network": "polkadot",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      postId: 123,
+      voteType: "referendum"
+    })
+  }
+);
+```
+
+#### Get Aye/Nay Vote Count
+
+Retrieves the counts of aye and nay votes for a proposal.
+
+**URL**: `/v1/votes/ayeNayTotalCount`
+
+**Method**: `POST`
+
+**Request Body**:
+```json
+{
+  "postId": 123,
+  "voteType": "referendum"
+}
+```
+
+**Example Request**:
+```javascript
+const response = await fetch(
+  "https://polkadot.polkassembly.io/api/v1/votes/ayeNayTotalCount",
+  {
+    method: "POST",
+    headers: {
+      "x-network": "polkadot",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      postId: 123,
+      voteType: "referendum"
+    })
+  }
+);
+```
+
+#### Get Votes History
+
+Retrieves voting history for a proposal.
+
+**URL**: `/v1/votes/history`
+
+**Method**: `POST`
+
+**Request Body**:
+```json
+{
+  "postId": 123,
+  "voteType": "referendum"
+}
+```
+
+**Example Request**:
+```javascript
+const response = await fetch(
+  "https://polkadot.polkassembly.io/api/v1/votes/history",
+  {
+    method: "POST",
+    headers: {
+      "x-network": "polkadot",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      postId: 123,
+      voteType: "referendum"
+    })
+  }
+);
+```
+
+### User Data
+
+#### Get User Activities
+
+Retrieves activities for a specific user.
+
+**URL**: `/v1/users/user-activities`
+
+**Method**: `POST`
+
+**Request Body**:
+```json
+{
+  "address": "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY"
+}
+```
+
+**Example Request**:
+```javascript
+const response = await fetch(
+  "https://polkadot.polkassembly.io/api/v1/users/user-activities",
+  {
+    method: "POST",
+    headers: {
+      "x-network": "polkadot",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      address: "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY"
+    })
+  }
+);
+```
+
+#### Check Username Existence
+
+Checks if a username is already taken.
+
+**URL**: `/v1/users/username-exist`
+
+**Method**: `POST`
+
+**Request Body**:
+```json
+{
+  "username": "exampleUser"
+}
+```
+
+**Example Request**:
+```javascript
+const response = await fetch(
+  "https://polkadot.polkassembly.io/api/v1/users/username-exist",
+  {
+    method: "POST",
+    headers: {
+      "x-network": "polkadot",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      username: "exampleUser"
+    })
+  }
+);
+```
+
+### Delegations
+
+#### Get Delegation Vote Count and Power
+
+Retrieves information about delegation votes and their voting power.
+
+**URL**: `/v1/votes/delegationVoteCountAndPower`
+
+**Method**: `POST`
+
+**Request Body**:
+```json
+{
+  "postId": 123,
+  "voteType": "referendum"
+}
+```
+
+**Example Request**:
+```javascript
+const response = await fetch(
+  "https://polkadot.polkassembly.io/api/v1/votes/delegationVoteCountAndPower",
+  {
+    method: "POST",
+    headers: {
+      "x-network": "polkadot",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      postId: 123,
+      voteType: "referendum"
+    })
+  }
+);
+```
+
+## Response Format
+
+All API responses follow a standard format:
+
+```json
+{
+  "data": {
+    // The requested data
+  },
+  "status": 200, // HTTP status code
+  "error": "" // Empty string if no error, otherwise contains error message
+}
+```
+
+## Error Handling
+
+When an error occurs, the API will return a response with an appropriate HTTP status code and an error message:
+
+```json
+{
+  "error": "Error message describing what went wrong"
+}
+```
+
+Common error status codes:
+- `400`: Bad Request - The request was malformed or missing required parameters
+- `401`: Unauthorized - Authentication is required or the provided credentials are invalid
+- `403`: Forbidden - The authenticated user does not have permission to access the requested resource
+- `404`: Not Found - The requested resource does not exist
+- `500`: Internal Server Error - An unexpected error occurred on the server
+
+## API Usage Limitations
+
+Be mindful of rate limits when using the Polkassembly API. Excessive requests may lead to temporary IP blocking. For high-volume applications, please contact the Polkassembly team.
+
+## Further Assistance
+
+For further assistance or questions about the API, please contact the Polkassembly team through their official channels. 
 
 **Updated API Documentation (After 16 March'23)**
 [Documentation Link](https://documenter.getpostman.com/view/764953/2s93JxqLoH#181400b9-281a-44d2-91ff-93f9f6bf079e)
 
-**Archived API Documentation (Before 16 March'23)**
-
-**API ENDPOINT**
-
-Chain and GraphQL Endpoints
-
-| **Chain**      | **GraphQL Endpoint**                                                                                           |
-| -------------- | -------------------------------------------------------------------------------------------------------------- |
-| kusama         | [https://kusama.polkassembly.io/v1/graphql](https://kusama.polkassembly.io/v1/graphql)                         |
-| polkadot       | [https://polkadot.polkassembly.io/v1/graphql](https://polkadot.polkassembly.io/v1/graphql)                     |
-| moonbase       | [https://api.moonbase.polkassembly.network/v1/graphql](https://api.moonbase.polkassembly.network/v1/graphql)   |
-| moonbeam       | [https://api.moonbeam.polkassembly.network/v1/graphql](https://api.moonbeam.polkassembly.network/v1/graphql)   |
-| moonriver      | [https://api.moonriver.polkassembly.network/v1/graphql](https://api.moonriver.polkassembly.network/v1/graphql) |
-| other networks | [https://polkassembly-hasura.herokuapp.com/graphql](https://polkassembly-hasura.herokuapp.com/graphql)         |
-
-**Proposal Post**
-
-# 🙏 Resources and Reference
-
-**Fetch proposal title and description:**
-
-**Graphql Request:**
-
-query {
-posts(where: {onchain_link: {onchain_proposal_id: {\_eq: 113}}}) {
-title
-content
-onchain_link {
-proposer_address
-}
-comments {
-content
-created_at
-author {
-username
-}
-replies {
-content
-author {
-username
-}
-}
-}
-}
-}
-
-Grateful for all the help!
 
 **Resources​**
 
